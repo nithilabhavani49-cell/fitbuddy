@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Plan - FitBuddy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <a class="top-link" href="/">&larr; Back to Home</a>
+  <h1>🏋️ Your FitBuddy Plan</h1>
+
+  {% if message %}
+  <div class="card">
+    <div class="message-box">{{ message }}</div>
+  </div>
+  {% endif %}
+
+  {% if username %}
+  <div class="card">
+    <h2>User Information</h2>
+    <div class="summary-grid">
+      <div><strong>Name:</strong> {{ username }}</div>
+      <div><strong>User ID:</strong> {{ user_id }}</div>
+      <div><strong>Age:</strong> {{ age }}</div>
+      <div><strong>Weight:</strong> {{ weight }} kg</div>
+      <div><strong>Goal:</strong> {{ goal }}</div>
+      <div><strong>Intensity:</strong> {{ intensity }}</div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if workout_plan %}
+  <div class="card">
+    <h2>{% if updated_plan %}Original Workout Plan{% else %}7-Day Workout Plan{% endif %}</h2>
+    <pre>{{ workout_plan }}</pre>
+  </div>
+  {% endif %}
+
+  {% if updated_plan %}
+  <div class="card">
+    <h2>✅ Updated Workout Plan</h2>
+    <pre>{{ updated_plan }}</pre>
+  </div>
+  {% endif %}
+
+  {% if nutrition_tip %}
+  <div class="card">
+    <h2>Nutrition &amp; Recovery Tip</h2>
+    <div class="tip-box">{{ nutrition_tip }}</div>
+  </div>
+  {% endif %}
+
+  <div class="card">
+    <h2>Give Feedback to Refine Your Plan</h2>
+    <form action="/submit-feedback" method="post">
+      <label for="user_id_fb">User ID</label>
+      <input type="text" id="user_id_fb" name="user_id" placeholder="Enter your User ID" value="{{ user_id or '' }}" required />
+
+      <label for="feedback">Feedback</label>
+      <textarea id="feedback" name="feedback" rows="4" placeholder="e.g. Add more cardio, include a yoga day, reduce intensity" required></textarea>
+
+      <button type="submit">Update My Plan</button>
+    </form>
+  </div>
+
+  <a class="btn btn-secondary" style="max-width:640px;width:100%;text-align:center;" href="/view-all-users">View All Users (Admin)</a>
+</body>
+</html>

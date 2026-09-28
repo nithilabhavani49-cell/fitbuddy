@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Users - FitBuddy Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <a class="top-link" href="/">&larr; Back to Home</a>
+  <h1>📋 All Registered Users</h1>
+  <p class="subtitle">Admin dashboard - track progress and compare original vs. updated plans.</p>
+
+  <div class="card" style="max-width: 1100px;">
+    {% if rows %}
+    <table>
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Weight (kg)</th>
+          <th>Goal</th>
+          <th>Intensity</th>
+          <th>Original Plan</th>
+          <th>Updated Plan</th>
+          <th>Nutrition Tip</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row.user.user_id }}</td>
+          <td>{{ row.user.username }}</td>
+          <td>{{ row.user.age }}</td>
+          <td>{{ row.user.weight }}</td>
+          <td>{{ row.user.goal }}</td>
+          <td>{{ row.user.intensity }}</td>
+          <td><pre>{{ row.original_plan or '—' }}</pre></td>
+          <td><pre>{{ row.updated_plan or '—' }}</pre></td>
+          <td>{{ row.nutrition_tip or '—' }}</td>
+          <td>
+            <form action="/delete-user" method="post" onsubmit="return confirm('Delete this user?');">
+              <input type="hidden" name="user_id" value="{{ row.user.user_id }}" />
+              <button type="submit" class="btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No users registered yet. <a class="top-link" href="/">Generate the first plan</a>.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
